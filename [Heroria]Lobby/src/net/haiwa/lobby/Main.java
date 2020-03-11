@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import net.haiwa.lobby.cmd.CmdPa;
 import net.haiwa.lobby.listeners.ListenersManager;
 
 public class Main extends JavaPlugin{
@@ -17,6 +18,7 @@ public class Main extends JavaPlugin{
 		PluginManager pm = Bukkit.getPluginManager();
 		
 		pm.registerEvents(new ListenersManager(), this);
+		getCommand("pa").setExecutor(new CmdPa());
 		
 	}
 	

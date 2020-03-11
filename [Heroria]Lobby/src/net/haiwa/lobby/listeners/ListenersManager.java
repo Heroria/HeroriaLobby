@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -39,6 +40,7 @@ public class ListenersManager implements Listener {
 		p.getInventory().setItem(4, new ItemUtils().settingsLever(p));
 		p.getInventory().setItem(7, new ItemUtils().lapisLazuliProfil(p));
 		p.getInventory().setItem(8, new ItemUtils().shopEnderChest(p));
+		
 	}
 	
 	@EventHandler
@@ -76,6 +78,7 @@ public class ListenersManager implements Listener {
 					p.playSound(p.getLocation(), Sound.FIREWORK_BLAST, 1f, 1f);
 					p.sendMessage("§aTous les joueurs sont invisibles");
 					p.getInventory().setItem(1, new ItemUtils().hiddenPowderActivate(p));
+					p.updateInventory();
 					return;
 				}
 			}else if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§aPoudre d'invisibilité > " + p.getName())) {
@@ -86,6 +89,29 @@ public class ListenersManager implements Listener {
 					p.playSound(p.getLocation(), Sound.FIREWORK_BLAST2, 1f, 1f);
 					p.sendMessage("§cTous les joueurs sont visibles");
 					p.getInventory().setItem(1, new ItemUtils().hiddenPowderDesactivate(p));
+					p.updateInventory();
+					return;
+				}
+			}
+		}else if(it.getType().equals(Material.LEVER)) {
+			if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§bOptions > " + p.getName())) {
+				if(a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.RIGHT_CLICK_BLOCK)) {
+					p.openInventory(new InventoryUtils().settings(p));
+					return;
+				}
+			}
+		}else if(it.getType().equals(Material.INK_SACK)) {
+			if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§7Profil > " + p.getName())) {
+				if(a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.RIGHT_CLICK_BLOCK)) {
+					p.openInventory(new InventoryUtils().profil(p));
+					return;
+				}
+			}
+		}else if(it.getType().equals(Material.FEATHER)) {
+			if(it.hasItemMeta() && it.getItemMeta().hasDisplayName() && it.getItemMeta().getDisplayName().equalsIgnoreCase("§5Kinto")) {
+				if(a.equals(Action.RIGHT_CLICK_AIR) || a.equals(Action.RIGHT_CLICK_BLOCK)) {
+					p.performCommand("pa kinto");
+					p.sendMessage("§aVous avez activé la particule kinto");
 					return;
 				}
 			}
@@ -121,6 +147,11 @@ public class ListenersManager implements Listener {
 
 	@EventHandler
 	public void onDamageByBlock(EntityDamageByBlockEvent e) {
+		e.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onDrop(PlayerDropItemEvent e) {
 		e.setCancelled(true);
 	}
 }

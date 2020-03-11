@@ -5,6 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class ItemUtils {
 	
@@ -90,6 +91,29 @@ public class ItemUtils {
 		stick.setItemMeta(stickM);
 		
 		return stick;
+	}
+
+	public static ItemStack profileHead(Player p) {
+		
+		ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+		SkullMeta headM = (SkullMeta) head.getItemMeta();
+		
+		headM.setOwner(p.getName());
+		headM.setDisplayName("§9Profile: " + p.getName());
+		head.setItemMeta(headM);
+		
+		return head;
+	}
+	
+	public static ItemStack particulesFeather() {
+		
+		ItemStack feather = new ItemStack(Material.FEATHER);
+		ItemMeta featherM = feather.getItemMeta();
+		
+		featherM.setDisplayName("§5Kinto");
+		feather.setItemMeta(featherM);
+		
+		return feather;
 	}
 	
 }
